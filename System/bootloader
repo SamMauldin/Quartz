@@ -1,0 +1,13 @@
+-- Store API's and frameworks in here
+_G["$"] = {}
+
+-- Run all init programs
+for _,v in pairs(fs.list("/System/init")) do
+	
+	local name = "/System/init/" .. v
+	
+	--Safety check
+	if not fs.isDir(name) then
+		os.run({["runTime"] = "boot"}, name)
+	end
+end
