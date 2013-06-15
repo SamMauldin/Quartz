@@ -5,7 +5,7 @@ print("SystemStarter running...")
 
 --Check for bootloader.
 if fs.exists("/System/bootloader") then
-	os.run("/System/bootloader")
+	os.run({}, "/System/bootloader")
 else
 	print("It seems your Quartz installation is corrupt.")
 	print("To maintain security, please repair or reinstall the system by booting of a disk.")
