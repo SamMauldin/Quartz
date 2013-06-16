@@ -22,9 +22,17 @@ for k,v in pairs(fs.list("/System/init")) do
 	end
 end
 
-print("Init done")
+A.draw.write("Init done")
+
+sleep(0.5)
 
 A.draw.clear()
+
+A.draw.setColors(colors.white, colors.blue)
+
+local x, y = A.draw.getSize()
+
+A.draw.box(2, 2, x-1, y-1)
 
 end
 

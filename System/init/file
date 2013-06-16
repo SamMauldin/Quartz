@@ -1,3 +1,4 @@
+-- Setup environment
 A.file = {}
 
 A.file.read = function(file, default)

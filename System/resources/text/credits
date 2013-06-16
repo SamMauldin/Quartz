@@ -1,16 +1,19 @@
 Main Coder
 ----------
-Sxw1212
+	Sxw1212
 
 Libraries
 ---------
 
 	JSON
 	----
-	Slightly modified version of http://regex.info/blog/lua/json
+		Slightly modified version of http://regex.info/blog/lua/json
 	
 	Draw
 	----
 		line
 		----
-		Modified paintutils
+			Modified paintutils
+		write
+		-----
+			Modified bios write function

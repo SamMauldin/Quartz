@@ -9,12 +9,67 @@ A.draw.display = term.native
 
 local native = term.native
 
-A.draw.write = function(text)
+A.draw.write = function(sText)
 	if A.draw.display.isColor() then
 		A.draw.display.setTextColor(A.draw.color.fg)
 		A.draw.display.setBackgroundColor(A.draw.color.bg)
 	end
-	A.draw.display.write(text)
+	
+	local w,h = A.draw.display.getSize()		
+	local x,y = A.draw.display.getCursorPos()
+	
+	local nLinesPrinted = 0
+	local function newLine()
+		if y + 1 <= h then
+			A.draw.display.setCursorPos(1, y + 1)
+		else
+			A.draw.display.setCursorPos(1, h)
+			A.draw.display.scroll(1)
+		end
+		x, y = A.draw.display.getCursorPos()
+		nLinesPrinted = nLinesPrinted + 1
+	end
+	
+	-- Print the line with proper word wrapping
+	while string.len(sText) > 0 do
+		local whitespace = string.match( sText, "^[ \t]+" )
+		if whitespace then
+			-- Print whitespace
+			A.draw.display.write( whitespace )
+			x,y = A.draw.display.getCursorPos()
+			sText = string.sub( sText, string.len(whitespace) + 1 )
+		end
+		
+		local newline = string.match( sText, "^\n" )
+		if newline then
+			-- Print newlines
+			newLine()
+			sText = string.sub( sText, 2 )
+		end
+		
+		local text = string.match( sText, "^[^ \t\n]+" )
+		if text then
+			sText = string.sub( sText, string.len(text) + 1 )
+			if string.len(text) > w then
+				-- Print a multiline word				
+				while string.len( text ) > 0 do
+					if x > w then
+						newLine()
+					end
+					A.draw.display.write( text )
+					text = string.sub( text, (w-x) + 2 )
+					x,y = A.draw.display.getCursorPos()
+				end
+			else
+				-- Print a word normally
+				if x + string.len(text) - 1 > w then
+					newLine()
+				end
+				A.draw.display.write( text )
+				x,y = A.draw.display.getCursorPos()
+			end
+		end
+	end
 end
 
 A.draw.clear = function()
@@ -139,5 +194,11 @@ A.draw.line = function(startX, startY, endX, endY)
 				x = x - dx
 			end
 		end
+	end
+end
+
+A.draw.box = function(x1, y1, x2, y2)
+	for i=x1, x2 do
+		A.draw.line(i, y1, i, y2)
 	end
 end
