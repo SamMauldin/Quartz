@@ -1,0 +1,10 @@
+-- Setup environment
+A.gui = {}
+
+A.gui.drawButton(x, y, w, h, text)
+	A.draw.box(x, y, x+w, y+h)
+	local textLayerY = math.ceil(h/2)
+	local textLayerX = math.ceil((w/2)-(#text/2))
+	A.draw.setCursorPos(textLayerX, textLayerY)
+	A.draw.write(text)
+end
