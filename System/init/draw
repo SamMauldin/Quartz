@@ -73,6 +73,10 @@ A.draw.write = function(sText, tab)
 	end
 end
 
+A.draw.print = function(text)
+	A.draw.write(text .. "\n")
+end
+
 A.draw.clear = function()
 	if A.draw.display.isColor() then
 		A.draw.display.setBackgroundColor(A.draw.color.bg)

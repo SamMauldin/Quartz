@@ -17,3 +17,14 @@ Libraries
 		write
 		-----
 			Modified bios write function
+	
+	GUI
+	---
+		textbox
+		-------
+			Modified bios read function
+	
+	Lua Class System
+	----------------
+		Slightly modified version of https://github.com/Yonaba/Lua-Class-System
+		License is included in source file (/System/init/class)

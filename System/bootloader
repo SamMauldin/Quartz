@@ -22,21 +22,34 @@ for k,v in pairs(fs.list("/System/init")) do
 	end
 end
 
-A.draw.write("Init done")
+A.draw.write("Loaded init")
 
-sleep(0.5)
+sleep(0.1)
 
-A.draw.clear()
+A.draw.reset()
 
-A.draw.setColors(colors.white, colors.lime)
+A.draw.print("Loading frameworks")
 
-local x, y = A.draw.getSize()
+for k,v in pairs(fs.list("/System/frameworks")) do
+	
+	A.draw.print("Loading "..v)
+	
+	local name = "/System/frameworks/" .. v
+	
+	--Safety check
+	if not fs.isDir(name) then
+		os.run({["runTime"] = "framework"}, name)
+	end
+end
 
+A.draw.print("Loaded frameworks")
 
+sleep(0.1)
 
-A.draw.box(2, 2, x-1, y-1)
 A.draw.setColors(colors.white, colors.gray)
-A.gui.drawButton(3, 3, x-4, y-4, "Test")
+screen = A.gui.screen()
+
+screen:add(A.gui.element())
 
 end
 
