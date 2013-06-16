@@ -1,8 +1,18 @@
--- Store API's and frameworks in here
-_G["$"] = {}
+local function capsule()
+
+print("Bootloading started...")
+
+-- Store API's, frameworks, and data in here
+_G["A"] = {}
+
+A.version = "0.1a"
+
+print("Running init...")
 
 -- Run all init programs
-for _,v in pairs(fs.list("/System/init")) do
+for k,v in pairs(fs.list("/System/init")) do
+	
+	print("Loading "..v)
 	
 	local name = "/System/init/" .. v
 	
@@ -11,3 +21,34 @@ for _,v in pairs(fs.list("/System/init")) do
 		os.run({["runTime"] = "boot"}, name)
 	end
 end
+
+print("Init done")
+
+A.draw.clear()
+
+end
+
+local function handleError(err)
+	if A.draw then
+		local x, y = A.draw.getSize()
+		A.draw.setColors(colors.white, colors.blue)
+		for i = 1, y do
+			A.draw.line(1, i, x, i)
+			sleep(0.1)
+		end
+		A.draw.setCursorPos(5, 2)
+		A.draw.write("Your system has crashed.")
+		A.draw.setCursorPos(5, 4)
+		A.draw.write("Error:")
+		A.draw.setCursorPos(6, 5)
+		A.draw.write(err)
+	else
+		print("An error occurred while booting the system.")
+		print("To maintain security, please repair or reinstall the system by booting of a disk.")
+		print("Error: "..err)
+	end
+end
+
+xpcall(capsule, handleError)
+os.pullEvent("key")
+os.shutdown()

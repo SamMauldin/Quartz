@@ -1,1 +1,143 @@
-$.draw = {}
+-- Setup environment
+A.draw = {}
+A.draw.color = {}
+
+A.draw.color.fg = colors.white
+A.draw.color.bg = colors.black
+
+A.draw.display = term.native
+
+local native = term.native
+
+A.draw.write = function(text)
+	if A.draw.display.isColor() then
+		A.draw.display.setTextColor(A.draw.color.fg)
+		A.draw.display.setBackgroundColor(A.draw.color.bg)
+	end
+	A.draw.display.write(text)
+end
+
+A.draw.clear = function()
+	if A.draw.display.isColor() then
+		A.draw.display.setBackgroundColor(A.draw.color.bg)
+	end
+	A.draw.display.clear()
+end
+
+A.draw.reset = function()
+	if A.draw.display.isColor() then
+		A.draw.display.setBackgroundColor(A.draw.color.bg)
+	end
+	A.draw.display.clear()
+	A.draw.display.setCursorPos(1,1)
+end
+
+A.draw.clearLine = function()
+	if A.draw.display.isColor() then
+		A.draw.display.setBackgroundColor(A.draw.color.bg)
+	end
+	A.draw.display.clearLine()
+end
+
+A.draw.getCursorPos = function()
+	return A.draw.display.getCursorPos()
+end
+
+A.draw.setCursorPos = function(x, y)
+	A.draw.display.setCursorPos(x or 1, y or 1)
+end
+
+A.draw.setCursorBlink = function(blink)
+	A.draw.display.setCursorBlink(blink)
+end
+
+A.draw.isColor = function()
+	return A.draw.display.isColor()
+end
+
+A.draw.getSize = function()
+	return A.draw.display.getSize()
+end
+
+A.draw.scroll = function(lines)
+	A.draw.display.scroll(lines)
+end
+
+A.draw.redirect = function(disp)
+	A.draw.display = disp
+end
+
+A.draw.restore = function()
+	A.draw.display = native
+end
+
+A.draw.setTextColor = function(color)
+	A.draw.color.fg = color or colors.white
+end
+
+A.draw.setBackgroundColor = function(color)
+	A.draw.color.bg = color or colors.black
+end
+
+A.draw.setColors = function(fg, bg)
+	A.draw.color.fg = fg or colors.white
+	A.draw.color.bg = bg or colors.black
+end
+
+A.draw.drawPixel = function(x, y)
+	if A.draw.isColor() then
+		A.draw.display.setTextColor(A.draw.color.fg)
+		A.draw.display.setBackgroundColor(A.draw.color.bg)
+	end
+	A.draw.setCursorPos(x, y)
+	A.draw.write(" ")
+end
+
+A.draw.line = function(startX, startY, endX, endY)
+	startX = math.floor(startX)
+	startY = math.floor(startY)
+	endX = math.floor(endX)
+	endY = math.floor(endY)
+	
+	if startX == endX and startY == endY then
+		A.draw.drawPixel(startX, startY)
+		return
+	end
+	
+	local minX = math.min(startX, endX)
+	if minX == startX then
+		minY = startY
+		maxX = endX
+		maxY = endY
+	else
+		minY = endY
+		maxX = startX
+		maxY = startY
+	end
+		
+	local xDiff = maxX - minX
+	local yDiff = maxY - minY
+			
+	if xDiff > math.abs(yDiff) then
+		local y = minY
+		local dy = yDiff / xDiff
+		for x=minX,maxX do
+			A.draw.drawPixel(x, math.floor(y + 0.5))
+			y = y + dy
+		end
+	else
+		local x = minX
+		local dx = xDiff / yDiff
+		if maxY >= minY then
+			for y=minY,maxY do
+				A.draw.drawPixel(math.floor(x+0.5), y)
+				x = x + dx
+			end
+		else
+			for y=minY,maxY,-1 do
+				A.draw.drawPixel(math.floor(x+0.5), y)
+				x = x - dx
+			end
+		end
+	end
+end
