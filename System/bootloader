@@ -28,11 +28,15 @@ sleep(0.5)
 
 A.draw.clear()
 
-A.draw.setColors(colors.white, colors.blue)
+A.draw.setColors(colors.white, colors.lime)
 
 local x, y = A.draw.getSize()
 
+
+
 A.draw.box(2, 2, x-1, y-1)
+A.draw.setColors(colors.white, colors.gray)
+A.gui.drawButton(3, 3, x-4, y-4, "Test")
 
 end
 
@@ -49,7 +53,7 @@ local function handleError(err)
 		A.draw.setCursorPos(5, 4)
 		A.draw.write("Error:")
 		A.draw.setCursorPos(6, 5)
-		A.draw.write(err)
+		A.draw.write(err, 6)
 	else
 		print("An error occurred while booting the system.")
 		print("To maintain security, please repair or reinstall the system by booting of a disk.")
