@@ -1,0 +1,15 @@
+-- Setup environment
+A.data = {}
+
+A.data.open = function(file, default)
+	if fs.exists(file) then
+		return A.json:decode(A.file.read(file))
+	else
+		return default
+	end
+end
+
+A.data.save = function(file, content)
+	A.file.write(file, A.json:encode_pretty(content))
+	return true
+end
