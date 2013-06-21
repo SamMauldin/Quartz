@@ -14,9 +14,12 @@ A.updater.check = function(devel)
 	else
 		url = "https://raw.github.com/Sxw1212/Quartz/master/System/resources/json/updater.json"
 	end
+	A.scratch:log("Grabbing updater.json")
 	local fh = http.get(url)
 	if fh then
-		local update = A.json:decode(fh.readAll())
+		A.scratch:log("Sucess!")
+		local update = A.json.decode(fh.readAll())
+		A.scratch:log("Checking for updates")
 		local current = A.data.open("/System/resources/json/updater.json", { version = "0" })
 		if update.version == current.version then
 			return true, false
@@ -29,6 +32,7 @@ A.updater.check = function(devel)
 end
 
 A.updater.update = function(devel)
+	A.scratch:log("Updating system")
 	-- Running devel version?
 	if devel then
 		local base = "https://raw.github.com/Sxw1212/Quartz/devel"
@@ -39,7 +43,7 @@ A.updater.update = function(devel)
 	end
 	local fh = http.get(url)
 	if fh then
-		local update = A.json:decode(fh.readAll())
+		local update = A.json.decode(fh.readAll())
 		for k,v in pairs(update.files) do
 			local new = http.get(base .. v)
 			if new then

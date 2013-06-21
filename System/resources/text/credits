@@ -7,7 +7,7 @@ Libraries
 
 	JSON
 	----
-		Slightly modified version of http://regex.info/blog/lua/json
+		Slightly modified version of http://json.luaforge.net/
 	
 	Draw
 	----

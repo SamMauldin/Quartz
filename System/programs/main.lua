@@ -35,7 +35,7 @@ screen:listen(true)
 end
 
 local upsettings = A.data.open("/Library/Settings/updater", {
-	devel = false,
+	devel = true,
 	confirm = true
 })
 
@@ -67,7 +67,7 @@ else
 			screen:add(yes)
 			screen:add(no)
 			screen:add(update)
-			
+
 			screen:listen()
 		else
 			print("Updating system...")
