@@ -1,41 +1,69 @@
 local x,y = A.draw.getSize()
 
-function install()
-	data.save("/Library/Settings/users.json", {
-		[
-			{
-				user = user.getText(),
-				pass = A.hash.sha(pass.getText())
-			}
-		]
-	})
+function done()
+	A.file.write("/Library/Settings/.done", "true")
 	os.reboot()
 end
 
-A.draw.clear()
+function updater()
+	local screen = A.gui.screen()
 
-local screen = A.gui.screen()
+	local installmsg = A.gui.label(2, 1, "Please choose updater settings")
 
-local pallet = A.gui.colorscheme()
+	local devel = A.gui.label(2, 3, "Devel:")
+	local confirm = A.gui.label(2, 5, "Confirm:")
 
-local shutdown = A.gui.button(x-9, y-2, 8, 1, "Shutdown", pallet, os.shutdown)
-local reboot = A.gui.button(3, y-2, 6, 1, "Reboot", pallet, os.reboot)
-local register = A.gui.button(2, 7, 8, 1, "Register", pallet, install)
+	local develcb = A.gui.checkbox(x-2, 3, nil, false)
+	local confirmcb = A.gui.checkbox(x-2, 5, nil, true)
 
-local user = A.gui.label(2, 3, "Username:", pallet)
-local pass = A.gui.label(2, 5, "Password:", pallet)
-local installmsg = A.gui.label(2, 1, "Please choose a username and password", pallet)
+	local done = A.gui.button(2, 7, 4, 1, "Done", nil, function()
+		data.save("/Library/Settings/updater.json", {
+			devel = develcb.getValue(),
+			confirm = confirmcb.getValue()
+		})
+		done()
+	end)
 
-local username = A.gui.textbox(12, 2, 10, pallet)
-local password = A.gui.password(12, 4, 10, pallet)
+	screen:add(installmsg)
 
-screen:add(shutdown)
-screen:add(reboot)
-screen:add(register)
-screen:add(user)
-screen:add(pass)
-screen:add(installmsg)
-screen:add(username)
-screen:add(password)
+	screen:add(devel)
+	screen:add(confirm)
+	screen:add(develcb)
+	screen:add(confirmcb)
 
-screen:listen()
+	screen:add(done)
+	screen:listen()
+end
+
+function user()
+	A.draw.clear()
+
+	local screen = A.gui.screen()
+
+	local shutdown = A.gui.button(x-9, y-2, 8, 1, "Shutdown", nil, os.shutdown)
+	local reboot = A.gui.button(3, y-2, 6, 1, "Reboot", nil, os.reboot)
+	local register = A.gui.button(2, 7, 8, 1, "Register", nil, function()
+		data.save("/Library/Settings/users.json", {
+			{user.getText(), A.hash.sha(pass.getText()), true}
+		})
+		updater()
+	end)
+
+	local user = A.gui.label(2, 3, "Username:")
+	local pass = A.gui.label(2, 5, "Password:")
+	local installmsg = A.gui.label(2, 1, "Please choose a username and password")
+
+	local username = A.gui.textbox(12, 2, 10)
+	local password = A.gui.password(12, 4, 10)
+
+	screen:add(shutdown)
+	screen:add(reboot)
+	screen:add(register)
+	screen:add(user)
+	screen:add(pass)
+	screen:add(installmsg)
+	screen:add(username)
+	screen:add(password)
+
+	screen:listen()
+end

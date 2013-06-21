@@ -2,53 +2,61 @@ local function capsule()
 
 	print("Bootloading started...")
 
--- Store API's, frameworks, and data in here
-_G["A"] = {}
+	-- Store API's, frameworks, and data in here
+	_G["A"] = {}
 
-print("Running init...")
+	A.run = function(prog, env)
+		local env = env or {["runTime"] = "unknown"}
+		local program = loadfile(prog)
+		setmetatable( env, { __index = _G } )
+		setfenv( program, env )
+		program()
+	end
 
--- Run all init programs
-for k,v in pairs(fs.list("/System/init")) do
+	print("Running init...")
 
-	print("Loading "..v)
+	-- Run all init programs
+	for k,v in pairs(fs.list("/System/init")) do
 
-	local name = "/System/init/" .. v
+		print("Loading "..v)
 
---Safety check
-if not fs.isDir(name) then
-	os.run({["runTime"] = "boot"}, name)
-end
-end
+		local name = "/System/init/" .. v
 
-A.draw.write("Loaded init")
+	--Safety check
+	if not fs.isDir(name) then
+		A.run(name, {["runTime"] = "boot"})
+	end
+	end
 
-A.draw.reset()
+	A.draw.write("Loaded init")
 
-A.draw.print("Loading frameworks")
+	A.draw.reset()
 
-for k,v in pairs(fs.list("/System/frameworks")) do
+	A.draw.print("Loading frameworks")
 
-	A.draw.print("Loading "..v)
+	for k,v in pairs(fs.list("/System/frameworks")) do
 
-	local name = "/System/frameworks/" .. v
+		A.draw.print("Loading "..v)
 
---Safety check
-if not fs.isDir(name) then
-	os.run({["runTime"] = "framework"}, name)
-end
-end
+		local name = "/System/frameworks/" .. v
 
-A.draw.print("Loaded frameworks")
+	--Safety check
+	if not fs.isDir(name) then
+		A.run(name, {["runTime"] = "framework"})
+	end
+	end
 
-A.scratch:log("[Started]")
+	A.draw.print("Loaded frameworks")
 
-sleep(0.25)
+	A.scratch:log("[Started]")
 
-os.run({["runTime"] = "kernal"}, "/System/programs/main.lua")
+	sleep(0.25)
 
-A.scratch:log("[Shutdown]")
+	A.run("/System/programs/main.lua", {["runTime"] = "boot"})
 
-return false
+	A.scratch:log("[Shutdown]")
+
+	return false
 
 end
 

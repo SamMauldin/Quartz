@@ -23,14 +23,9 @@ function A.gui.screen:listen()
 		for k,v in pairs(self.gui) do
 			v:draw()
 		end
-		local t = os.startTimer(0.5)
 		local e = { os.pullEvent() }
-		if e[1] == "timer" and e[2] == t then
-			t = os.startTimer(0.5)
-		else
-			for k,v in pairs(self.gui) do
-				v:event(e)
-			end
+		for k,v in pairs(self.gui) do
+			v:event(e)
 		end
 	end
 end
