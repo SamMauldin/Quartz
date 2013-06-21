@@ -1,0 +1,30 @@
+-- Logging framework
+
+--[[
+Logging levels (future use)
+
+1-Everything
+2-Debugging
+3-Info
+4-Warning
+5-Crash
+6-Complete failure
+
+]]--
+
+fs.makeDir("/Library/logs")
+
+local logger = A.LCS.class({name = "logger"})
+
+function logger:init(location)
+	self.loc = location or "/Library/logs/main"
+end
+
+function logger:log(txt)
+	local content = A.file.read(self.loc, "") .. "\n" .. txt
+	A.file.write(self.loc, content)
+end
+
+A.scratch = logger()
+
+A.scratch.logger = logger

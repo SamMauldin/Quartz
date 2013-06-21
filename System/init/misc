@@ -1,3 +1,5 @@
+-- Misc functions
+
 -- Setup environment
 A.misc = {}
 

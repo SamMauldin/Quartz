@@ -24,8 +24,6 @@ end
 
 A.draw.write("Loaded init")
 
-sleep(0.1)
-
 A.draw.reset()
 
 A.draw.print("Loading frameworks")
@@ -44,16 +42,48 @@ end
 
 A.draw.print("Loaded frameworks")
 
-sleep(0.1)
+A.scratch:log("[Started]")
 
-A.draw.setColors(colors.white, colors.gray)
-screen = A.gui.screen()
+sleep(0.5)
 
-screen:add(A.gui.element())
+A.scratch:log("Building GUI")
+
+A.draw.clear()
+
+local screen = A.gui.screen()
+
+local pallet = A.gui.colorscheme()
+
+local shutdown = A.gui.button(2, 2, 10, 1, "Shutdown", pallet, os.shutdown)
+
+local reboot = A.gui.button(14, 2, 10, 1, "Reboot", pallet, os.reboot)
+
+local text = A.gui.textbox(2, 6, 10, pallet)
+
+screen:add(shutdown)
+screen:add(reboot)
+screen:add(text)
+
+A.scratch:log("Starting GUI")
+
+screen:listen(true)
+
+A.scratch:log("[Shutdown]")
+
+return false
 
 end
 
+-- Multi-error bug fix ;l
+
+local handled = true
+
 local function handleError(err)
+	if handled then
+		handled = false
+	else
+		return
+	end
 	if A.draw then
 		local x, y = A.draw.getSize()
 		A.draw.setColors(colors.white, colors.blue)
@@ -72,8 +102,12 @@ local function handleError(err)
 		print("To maintain security, please repair or reinstall the system by booting of a disk.")
 		print("Error: "..err)
 	end
+	if A.scratch then
+		A.scratch:log("[Crash] " .. err)
+	end
 end
 
 xpcall(capsule, handleError)
+
 os.pullEvent("key")
 os.shutdown()

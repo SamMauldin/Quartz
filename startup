@@ -12,3 +12,12 @@ else
 	sleep(5)
 	os.shutdown()
 end
+
+-- This shouldn't happen. just in case
+
+
+
+print("It seems your Quartz installation is acting weird.")
+print("Whats happening? :P")
+sleep(5)
+os.shutdown()

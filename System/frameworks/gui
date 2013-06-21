@@ -1,12 +1,14 @@
+-- GUI Framework
+
 -- Setup environment
 A.gui = {}
 
 A.gui.element = A.LCS.class({name = "element"})
 A.gui.screen = A.LCS.class({name = "screen"})
+A.gui.colorscheme = A.LCS.class({name = "colorscheme"})
 
--- screen, aka app
-
-function A.gui.screen:init()
+function A.gui.screen:init(scheme)
+	self.scheme = scheme or A.gui.colorscheme()
 	self.gui = {}
 end
 
@@ -14,14 +16,23 @@ function A.gui.screen:add(obj)
 	table.insert(self.gui, obj)
 end
 
-function A.gui.screen:listen()
+function A.gui.screen:listen(redraw)
 	while true do
+		if redraw then
+			self.scheme:apply("screen")
+			A.draw.clear()
+		end
 		for k,v in pairs(self.gui) do
 			v:draw()
 		end
+		local t = os.startTimer(0.5)
 		local e = { os.pullEvent() }
-		for k,v in pairs(self.gui) do
-			v:event(e)
+		if e[1] == "timer" and e[2] == t then
+			t = os.startTimer(0.5)
+		else
+			for k,v in pairs(self.gui) do
+				v:event(e)
+			end
 		end
 	end
 end
@@ -39,28 +50,30 @@ end
 
 -- Button class
 
-A.gui.button = A.gui.element:extends({name:"button"})
+A.gui.button = A.gui.element:extends()
 
-function A.gui.button:init(x, y, w, h, text, handler)
+function A.gui.button:init(x, y, w, h, text, scheme, handler)
 	self.x = x
 	self.y = y
 	self.w = w
 	self.h = h
 	self.text = text
+	self.scheme = scheme or A.gui.colorscheme()
 	self.handler = handler
 end
 
 function A.gui.button:draw()
-	A.draw.box(self.x, self.y, self.x+self.w, self.y, self.h)
+	self.scheme:apply("main")
+	A.draw.box(self.x, self.y, self.x+self.w-1, self.y+self.h-1)
 	local textLayerY = math.ceil(self.h/2)
-	local textLayerX = math.ceil((self.w/2)-(#self.text/2))
-	A.draw.setCursorPos(textLayerX, textLayerY)
+	local textLayerX = math.ceil( ( self.w )/2 - #self.text/2 )
+	A.draw.setCursorPos(self.x+textLayerX, self.y+textLayerY-1)
 	A.draw.write(self.text)
 end
 
 function A.gui.button:event(ev)
 	if ev[1] == "mouse_click" then
-		if contained(ev[3], ev[4], self.x, self.y, self.x+self.w, self.y+self.h) then
+		if A.misc.contained(ev[3], ev[4], self.x, self.y, self.x+self.w-1, self.y+self.h-1) then
 			self.handler(ev)
 		end
 	end
@@ -68,23 +81,82 @@ end
 
 -- Textbox class
 
-A.gui.textbox = A.gui.element:extends({name:"textbox"})
+A.gui.textbox = A.gui.element:extends()
 
-function A.gui.textbox:init(x, y, w)
+function A.gui.textbox:init(x, y, w, scheme, handler)
 	self.x = x
 	self.y = y
 	self.w = w
+	self.scheme = scheme or A.gui.colorscheme()
+	self.handler = handler
 	self.text = ""
+	self.cursor = 0
+	self.focused = false
 end
 
 function A.gui.textbox:draw()
-	-- Im implementing custom textbox for when i get back from vacation.
-	A.draw.box(self.x, self.y)
+	self.scheme:apply("main")
+	if self.focused then
+		self.scheme:apply("active")
+	end
+	
+	A.draw.box(self.x, self.y, self.x + self.w, self.y)
+	A.draw.setCursorPos(self.x, self.y)
+	
+	A.draw.write(self.text)
+	
+	if self.focused then
+		A.draw.setCursorPos(self.x + self.cursor, self.y)
+	end
 end
 
 function A.gui.textbox:event(ev)
 	if self.focused then
-		--Mouse click focuses. see misc and contained
-	
+		if ev[1] == "char" then
+			self.cursor = self.cursor + 1
+			A.scratch():log("Char:"..ev[2])
+			self.text = self.text .. ev[2]
+			A.scratch():log("Result:"..self.text)
+		elseif ev[1] == "key" then
+			if ev[2] == keys.backspace or ev[2] == keys.delete then
+				self.text = string.sub( self.text, 1, self.cursor - 1 ) .. string.sub( self.text, self.cursor +1 )
+				self.cursor = self.cursor - 1
+			end
+			if ev[2] == keys.enter then
+				self.focused = false
+				if self.handler then
+					self.handler()
+				end
+			end
+		end
 	end
+	if ev[1] == "mouse_click" then
+		if A.misc.contained(ev[3], ev[4], self.x, self.y, self.x + self.w, self.y + 1) then
+			self.focused = true
+		else
+			self.focused = false
+		end
+	end
+end
+
+--Color scheme
+
+function A.gui.colorscheme:init()
+	self.s = {}
+	self.s.main = {colors.white, colors.gray}
+	self.s.active = {colors.cyan, colors.lightGray}
+	self.s.highlight = {colors.lightBlue, colors.yellow}
+	self.s.screen = {colors.white, colors.black}
+end
+
+function A.gui.colorscheme:set(scheme, value)
+	self.s[scheme] = value
+end
+
+function A.gui.colorscheme:get(scheme)
+	return self.s[scheme]
+end
+
+function A.gui.colorscheme:apply(scheme)
+	A.draw.setColors(self.s[scheme][1], self.s[scheme][2])
 end

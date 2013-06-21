@@ -1,10 +1,12 @@
+-- File management
+
 -- Setup environment
 A.file = {}
 
 A.file.read = function(file, default)
 	if fs.exists(file) then
 		local fh = fs.open(file, "r")
-		local data = fs.readAll()
+		local data = fh.readAll()
 		fh.close()
 		return data
 	else
