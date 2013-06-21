@@ -34,12 +34,14 @@ end
 A.updater.update = function(devel)
 	A.scratch:log("Updating system")
 	-- Running devel version?
+	local base
+	local url
 	if devel then
-		local base = "https://raw.github.com/Sxw1212/Quartz/devel"
-		local url = "https://raw.github.com/Sxw1212/Quartz/devel/System/resources/json/updater.json"
+		base = "https://raw.github.com/Sxw1212/Quartz/devel"
+		url = "https://raw.github.com/Sxw1212/Quartz/devel/System/resources/json/updater.json"
 	else
-		local base = "https://raw.github.com/Sxw1212/Quartz/master"
-		local url = "https://raw.github.com/Sxw1212/Quartz/master/System/resources/json/updater.json"
+		base = "https://raw.github.com/Sxw1212/Quartz/master"
+		url = "https://raw.github.com/Sxw1212/Quartz/master/System/resources/json/updater.json"
 	end
 	local fh = http.get(url)
 	if fh then

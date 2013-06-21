@@ -1,12 +1,12 @@
 A.draw.clear()
 
+local x,y = A.draw.getSize()
+
 function main()
 
 A.scratch:log("Building GUI")
 
 A.draw.clear()
-
-local x,y = A.draw.getSize()
 
 local screen = A.gui.screen()
 
@@ -31,7 +31,7 @@ screen:add(password)
 
 A.scratch:log("Starting GUI")
 
-screen:listen(true)
+screen:listen()
 end
 
 local upsettings = A.data.open("/Library/Settings/updater", {
@@ -57,7 +57,7 @@ else
 				A.updater.update(upsettings.devel)
 			end)
 
-			local no = A.gui.button(2, 3, 3, 1, "No", pallet, function()
+			local no = A.gui.button(x-2, 3, 2, 1, "No", pallet, function()
 				A.draw.clear()
 				main()
 			end)
@@ -74,5 +74,7 @@ else
 			A.updater.update(upsettings.devel)
 			os.reboot()
 		end
+	else
+		main()
 	end
 end

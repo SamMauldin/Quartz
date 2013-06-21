@@ -16,12 +16,10 @@ function A.gui.screen:add(obj)
 	table.insert(self.gui, obj)
 end
 
-function A.gui.screen:listen(redraw)
+function A.gui.screen:listen()
 	while true do
-		if redraw then
-			self.scheme:apply("screen")
-			A.draw.clear()
-		end
+		self.scheme:apply("screen")
+		A.draw.clear()
 		for k,v in pairs(self.gui) do
 			v:draw()
 		end
