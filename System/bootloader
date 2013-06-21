@@ -74,6 +74,7 @@ local function handleError(err)
 		A.draw.write("Error:")
 		A.draw.setCursorPos(6, 5)
 		A.draw.write(err, 6)
+		sleep(5)
 	else
 		print("An error occurred while booting the system.")
 		print("To maintain security, please repair or reinstall the system by booting of a disk.")
