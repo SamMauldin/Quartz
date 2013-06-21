@@ -42,12 +42,6 @@ function registerUser()
 
 	local shutdown = A.gui.button(x-9, y-2, 8, 1, "Shutdown", nil, os.shutdown)
 	local reboot = A.gui.button(3, y-2, 6, 1, "Reboot", nil, os.reboot)
-	local register = A.gui.button(2, 7, 8, 1, "Register", nil, function()
-		A.data.save("/Library/Settings/users.json", {
-			{username.getText(), A.hash.sha(password.getText()), true}
-		})
-		updater()
-	end)
 
 	local user = A.gui.label(2, 3, "Username:")
 	local pass = A.gui.label(2, 5, "Password:")
@@ -55,6 +49,13 @@ function registerUser()
 
 	local username = A.gui.textbox(12, 3, 10)
 	local password = A.gui.password(12, 5, 10)
+
+	local register = A.gui.button(2, 7, 8, 1, "Register", nil, function()
+		A.data.save("/Library/Settings/users.json", {
+			{username.getText(), A.hash.sha(password.getText()), true}
+		})
+		updater()
+	end)
 
 	screen:add(shutdown)
 	screen:add(reboot)
