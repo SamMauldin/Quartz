@@ -67,3 +67,5 @@ function user()
 
 	screen:listen()
 end
+
+user()
