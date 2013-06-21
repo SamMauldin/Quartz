@@ -53,8 +53,8 @@ function user()
 	local pass = A.gui.label(2, 5, "Password:")
 	local installmsg = A.gui.label(2, 1, "Please choose a username and password")
 
-	local username = A.gui.textbox(12, 2, 10)
-	local password = A.gui.password(12, 4, 10)
+	local username = A.gui.textbox(12, 3, 10)
+	local password = A.gui.password(12, 5, 10)
 
 	screen:add(shutdown)
 	screen:add(reboot)
