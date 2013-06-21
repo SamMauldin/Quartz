@@ -17,10 +17,10 @@ A.draw.write = function(sText, tab)
 		A.draw.display.setTextColor(A.draw.color.fg)
 		A.draw.display.setBackgroundColor(A.draw.color.bg)
 	end
-	
+
 	local w,h = A.draw.display.getSize()		
 	local x,y = A.draw.display.getCursorPos()
-	
+
 	local nLinesPrinted = 0
 	local function newLine()
 		if y + 1 <= h then
@@ -32,47 +32,47 @@ A.draw.write = function(sText, tab)
 		x, y = A.draw.display.getCursorPos()
 		nLinesPrinted = nLinesPrinted + 1
 	end
-	
-	-- Print the line with proper word wrapping
-	while string.len(sText) > 0 do
-		local whitespace = string.match( sText, "^[ \t]+" )
-		if whitespace then
-			-- Print whitespace
-			A.draw.display.write( whitespace )
-			x,y = A.draw.display.getCursorPos()
-			sText = string.sub( sText, string.len(whitespace) + 1 )
-		end
-		
-		local newline = string.match( sText, "^\n" )
-		if newline then
-			-- Print newlines
-			newLine()
-			sText = string.sub( sText, 2 )
-		end
-		
-		local text = string.match( sText, "^[^ \t\n]+" )
-		if text then
-			sText = string.sub( sText, string.len(text) + 1 )
-			if string.len(text) > w then
-				-- Print a multiline word				
-				while string.len( text ) > 0 do
-					if x > w then
-						newLine()
-					end
-					A.draw.display.write( text )
-					text = string.sub( text, (w-x) + 2 )
-					x,y = A.draw.display.getCursorPos()
-				end
-			else
-				-- Print a word normally
-				if x + string.len(text) - 1 > w then
-					newLine()
-				end
-				A.draw.display.write( text )
-				x,y = A.draw.display.getCursorPos()
-			end
-		end
+
+-- Print the line with proper word wrapping
+while string.len(sText) > 0 do
+	local whitespace = string.match( sText, "^[ \t]+" )
+	if whitespace then
+-- Print whitespace
+A.draw.display.write( whitespace )
+x,y = A.draw.display.getCursorPos()
+sText = string.sub( sText, string.len(whitespace) + 1 )
+end
+
+local newline = string.match( sText, "^\n" )
+if newline then
+-- Print newlines
+newLine()
+sText = string.sub( sText, 2 )
+end
+
+local text = string.match( sText, "^[^ \t\n]+" )
+if text then
+	sText = string.sub( sText, string.len(text) + 1 )
+	if string.len(text) > w then
+-- Print a multiline word				
+while string.len( text ) > 0 do
+	if x > w then
+		newLine()
 	end
+	A.draw.display.write( text )
+	text = string.sub( text, (w-x) + 2 )
+	x,y = A.draw.display.getCursorPos()
+end
+else
+-- Print a word normally
+if x + string.len(text) - 1 > w then
+	newLine()
+end
+A.draw.display.write( text )
+x,y = A.draw.display.getCursorPos()
+end
+end
+end
 end
 
 A.draw.print = function(text)
@@ -156,52 +156,52 @@ A.draw.drawPixel = function(x, y)
 end
 
 A.draw.line = function(startX, startY, endX, endY)
-	startX = math.floor(startX)
-	startY = math.floor(startY)
-	endX = math.floor(endX)
-	endY = math.floor(endY)
-	
-	if startX == endX and startY == endY then
-		A.draw.drawPixel(startX, startY)
-		return
+startX = math.floor(startX)
+startY = math.floor(startY)
+endX = math.floor(endX)
+endY = math.floor(endY)
+
+if startX == endX and startY == endY then
+A.draw.drawPixel(startX, startY)
+return
+end
+
+local minX = math.min(startX, endX)
+if minX == startX then
+	minY = startY
+	maxX = endX
+	maxY = endY
+else
+	minY = endY
+	maxX = startX
+	maxY = startY
+end
+
+local xDiff = maxX - minX
+local yDiff = maxY - minY
+
+if xDiff > math.abs(yDiff) then
+	local y = minY
+	local dy = yDiff / xDiff
+	for x=minX,maxX do
+		A.draw.drawPixel(x, math.floor(y + 0.5))
+		y = y + dy
 	end
-	
-	local minX = math.min(startX, endX)
-	if minX == startX then
-		minY = startY
-		maxX = endX
-		maxY = endY
-	else
-		minY = endY
-		maxX = startX
-		maxY = startY
-	end
-		
-	local xDiff = maxX - minX
-	local yDiff = maxY - minY
-			
-	if xDiff > math.abs(yDiff) then
-		local y = minY
-		local dy = yDiff / xDiff
-		for x=minX,maxX do
-			A.draw.drawPixel(x, math.floor(y + 0.5))
-			y = y + dy
+else
+	local x = minX
+	local dx = xDiff / yDiff
+	if maxY >= minY then
+		for y=minY,maxY do
+			A.draw.drawPixel(math.floor(x+0.5), y)
+			x = x + dx
 		end
 	else
-		local x = minX
-		local dx = xDiff / yDiff
-		if maxY >= minY then
-			for y=minY,maxY do
-				A.draw.drawPixel(math.floor(x+0.5), y)
-				x = x + dx
-			end
-		else
-			for y=minY,maxY,-1 do
-				A.draw.drawPixel(math.floor(x+0.5), y)
-				x = x - dx
-			end
+		for y=minY,maxY,-1 do
+			A.draw.drawPixel(math.floor(x+0.5), y)
+			x = x - dx
 		end
 	end
+end
 end
 
 A.draw.box = function(x1, y1, x2, y2)

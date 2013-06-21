@@ -12,6 +12,8 @@ Logging levels (future use)
 
 ]]--
 
+local maxlen = 5000
+
 fs.makeDir("/Library/logs")
 
 local logger = A.LCS.class({name = "logger"})
@@ -22,6 +24,9 @@ end
 
 function logger:log(txt)
 	local content = A.file.read(self.loc, "") .. "\n" .. txt
+	if string.len(content) > maxlen then
+		content = txt .. "\n"
+	end
 	A.file.write(self.loc, content)
 end
 

@@ -1,6 +1,6 @@
 local function capsule()
 
-print("Bootloading started...")
+	print("Bootloading started...")
 
 -- Store API's, frameworks, and data in here
 _G["A"] = {}
@@ -11,15 +11,15 @@ print("Running init...")
 
 -- Run all init programs
 for k,v in pairs(fs.list("/System/init")) do
-	
+
 	print("Loading "..v)
-	
+
 	local name = "/System/init/" .. v
-	
-	--Safety check
-	if not fs.isDir(name) then
-		os.run({["runTime"] = "boot"}, name)
-	end
+
+--Safety check
+if not fs.isDir(name) then
+	os.run({["runTime"] = "boot"}, name)
+end
 end
 
 A.draw.write("Loaded init")
@@ -29,15 +29,15 @@ A.draw.reset()
 A.draw.print("Loading frameworks")
 
 for k,v in pairs(fs.list("/System/frameworks")) do
-	
+
 	A.draw.print("Loading "..v)
-	
+
 	local name = "/System/frameworks/" .. v
-	
-	--Safety check
-	if not fs.isDir(name) then
-		os.run({["runTime"] = "framework"}, name)
-	end
+
+--Safety check
+if not fs.isDir(name) then
+	os.run({["runTime"] = "framework"}, name)
+end
 end
 
 A.draw.print("Loaded frameworks")

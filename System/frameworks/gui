@@ -41,7 +41,7 @@ A.gui.app = A.gui.screen
 
 -- Element framework
 function A.gui.element:draw()
-	
+
 end
 
 function A.gui.element:event()
@@ -99,12 +99,12 @@ function A.gui.textbox:draw()
 	if self.focused then
 		self.scheme:apply("active")
 	end
-	
+
 	A.draw.box(self.x, self.y, self.x + self.w, self.y)
 	A.draw.setCursorPos(self.x, self.y)
-	
+
 	A.draw.write(self.text)
-	
+
 	if self.focused then
 		A.draw.setCursorPos(self.x + self.cursor, self.y)
 	end
@@ -114,11 +114,12 @@ function A.gui.textbox:event(ev)
 	if self.focused then
 		if ev[1] == "char" then
 			self.cursor = self.cursor + 1
-			A.scratch():log("Char:"..ev[2])
 			self.text = self.text .. ev[2]
-			A.scratch():log("Result:"..self.text)
 		elseif ev[1] == "key" then
 			if ev[2] == keys.backspace or ev[2] == keys.delete then
+				if self.cursor <= 0 then
+					return
+				end
 				self.text = string.sub( self.text, 1, self.cursor - 1 ) .. string.sub( self.text, self.cursor +1 )
 				self.cursor = self.cursor - 1
 			end
@@ -137,6 +138,17 @@ function A.gui.textbox:event(ev)
 			self.focused = false
 		end
 	end
+end
+
+function A.gui.label:init(x, y, text, scheme)
+	self.x = x
+	self.y = y
+	self.text = text
+	self.scheme = scheme or A.gui.colorscheme()
+end
+
+function A.gui.label:draw()
+
 end
 
 --Color scheme
