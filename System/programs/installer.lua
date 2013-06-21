@@ -18,8 +18,8 @@ function updater()
 
 	local done = A.gui.button(2, 7, 4, 1, "Done", nil, function()
 		A.data.save("/Library/Settings/updater.json", {
-			devel = develcb.getValue(),
-			confirm = confirmcb.getValue()
+			devel = develcb:getValue(),
+			confirm = confirmcb:getValue()
 		})
 		done()
 	end)
