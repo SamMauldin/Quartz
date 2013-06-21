@@ -1,5 +1,5 @@
 {
-	"version": "0.213a",
+	"version": "0.3a",
 	"files": [
 		"/System/frameworks/gui",
 		"/System/frameworks/scratch",
@@ -9,7 +9,10 @@
 		"/System/init/file",
 		"/System/init/json",
 		"/System/init/misc",
+		"/System/init/hash",
 		"/System/programs/main.lua",
+		"/System/programs/installer.lua",
+		"/System/programs/updater.lua",
 		"/System/resources/json/updater.json",
 		"/System/resources/text/credits",
 		"/System/bootloader",

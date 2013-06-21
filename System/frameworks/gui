@@ -108,6 +108,10 @@ function A.gui.textbox:draw()
 	end
 end
 
+function A.gui.textbox:getText()
+	return self.text
+end
+
 function A.gui.textbox:event(ev)
 	if self.focused then
 		if ev[1] == "char" then
@@ -169,6 +173,42 @@ function A.gui.label:draw()
 	self.scheme:apply("text")
 	A.draw.setCursorPos(self.x, self.y)
 	A.draw.write(self.text)
+end
+
+A.gui.checkbox = A.gui.element:extends()
+
+function A.gui.checkbox:init(x, y, handler, default, char, scheme)
+	self.x = x
+	self.y = y
+	self.handler = handler
+	self.text = char or {"Y", "N"}
+	self.on = default or false
+	self.scheme = scheme or A.gui.colorscheme()
+end
+
+function A.gui.checkbox:draw()
+	self.scheme:apply("main")
+	A.draw.setCursorPos(self.x, self.y)
+	if self.on then
+		A.draw.write(self.text[1])
+	else
+		A.draw.write(self.text[2])
+	end
+end
+
+function A.gui.checkbox:event(ev)
+	if ev[1] == "mouse_click" then
+		if A.misc.contained(ev[3], ev[4], self.x, self.y, self.x + 1, self.y + 1) then
+			self.on = not self.on
+			if self.handler then
+				self.handler(self.on)
+			end
+		end
+	end
+end
+
+function A.gui.checkbox:getValue()
+	return self.on
 end
 
 --Color scheme

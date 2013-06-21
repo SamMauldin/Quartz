@@ -4,6 +4,11 @@ local x,y = A.draw.getSize()
 
 function main()
 
+if not fs.exists("/Library/Settings") then
+	os.run({["runTime"] = "main"}, "/System/programs/installer.lua")
+	os.reboot()
+end
+
 A.scratch:log("Building GUI")
 
 A.draw.clear()
