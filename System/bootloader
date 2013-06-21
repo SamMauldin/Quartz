@@ -44,29 +44,9 @@ A.draw.print("Loaded frameworks")
 
 A.scratch:log("[Started]")
 
-sleep(0.5)
+sleep(0.25)
 
-A.scratch:log("Building GUI")
-
-A.draw.clear()
-
-local screen = A.gui.screen()
-
-local pallet = A.gui.colorscheme()
-
-local shutdown = A.gui.button(2, 2, 10, 1, "Shutdown", pallet, os.shutdown)
-
-local reboot = A.gui.button(14, 2, 10, 1, "Reboot", pallet, os.reboot)
-
-local text = A.gui.textbox(2, 6, 10, pallet)
-
-screen:add(shutdown)
-screen:add(reboot)
-screen:add(text)
-
-A.scratch:log("Starting GUI")
-
-screen:listen(true)
+os.run({["runTime"] = "kernal"}, "/System/programs/main.lua")
 
 A.scratch:log("[Shutdown]")
 

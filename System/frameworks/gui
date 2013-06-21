@@ -140,6 +140,26 @@ function A.gui.textbox:event(ev)
 	end
 end
 
+A.gui.password = A.gui.textbox:extends()
+
+function A.gui.password:draw()
+	self.scheme:apply("main")
+	if self.focused then
+		self.scheme:apply("active")
+	end
+
+	A.draw.box(self.x, self.y, self.x + self.w, self.y)
+	A.draw.setCursorPos(self.x, self.y)
+
+	A.draw.write(string.rep("*", string.len(self.text)))
+
+	if self.focused then
+		A.draw.setCursorPos(self.x + self.cursor, self.y)
+	end
+end
+
+A.gui.label = A.gui.element:extends()
+
 function A.gui.label:init(x, y, text, scheme)
 	self.x = x
 	self.y = y
@@ -148,7 +168,7 @@ function A.gui.label:init(x, y, text, scheme)
 end
 
 function A.gui.label:draw()
-	self.scheme:apply("main")
+	self.scheme:apply("text")
 	A.draw.setCursorPos(self.x, self.y)
 	A.draw.write(self.text)
 end
@@ -157,10 +177,11 @@ end
 
 function A.gui.colorscheme:init()
 	self.s = {}
-	self.s.main = {colors.white, colors.gray}
-	self.s.active = {colors.cyan, colors.lightGray}
+	self.s.main = {colors.white, colors.lightGray}
+	self.s.active = {colors.white, colors.lime}
+	self.s.text = {colors.white, colors.lightBlue}
 	self.s.highlight = {colors.lightBlue, colors.yellow}
-	self.s.screen = {colors.white, colors.black}
+	self.s.screen = {colors.white, colors.lightBlue}
 end
 
 function A.gui.colorscheme:set(scheme, value)
