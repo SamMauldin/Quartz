@@ -5,8 +5,6 @@ local function capsule()
 -- Store API's, frameworks, and data in here
 _G["A"] = {}
 
-A.version = "0.1a"
-
 print("Running init...")
 
 -- Run all init programs

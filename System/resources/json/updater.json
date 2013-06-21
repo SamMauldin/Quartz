@@ -1,0 +1,17 @@
+{
+	"version": "0.2a",
+	"files": [
+		"/System/frameworks/gui",
+		"/System/frameworks/scratch",
+		"/System/init/class",
+		"/System/init/data",
+		"/System/init/draw",
+		"/System/init/file",
+		"/System/init/json",
+		"/System/init/misc",
+		"/System/programs/main.lua",
+		"/System/resources/text/credits",
+		"/System/bootloader",
+		"/startup"
+	]
+}
