@@ -44,7 +44,7 @@ function registerUser()
 	local reboot = A.gui.button(3, y-2, 6, 1, "Reboot", nil, os.reboot)
 	local register = A.gui.button(2, 7, 8, 1, "Register", nil, function()
 		A.data.save("/Library/Settings/users.json", {
-			{user.getText(), A.hash.sha(pass.getText()), true}
+			{username.getText(), A.hash.sha(password.getText()), true}
 		})
 		updater()
 	end)
