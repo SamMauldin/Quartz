@@ -148,7 +148,9 @@ function A.gui.label:init(x, y, text, scheme)
 end
 
 function A.gui.label:draw()
-
+	self.scheme:apply("main")
+	A.draw.setCursorPos(self.x, self.y)
+	A.draw.write(self.text)
 end
 
 --Color scheme
