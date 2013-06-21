@@ -17,7 +17,7 @@ function updater()
 	local confirmcb = A.gui.checkbox(x-2, 5, nil, true)
 
 	local done = A.gui.button(2, 7, 4, 1, "Done", nil, function()
-		data.save("/Library/Settings/updater.json", {
+		A.data.save("/Library/Settings/updater.json", {
 			devel = develcb.getValue(),
 			confirm = confirmcb.getValue()
 		})
@@ -43,7 +43,7 @@ function user()
 	local shutdown = A.gui.button(x-9, y-2, 8, 1, "Shutdown", nil, os.shutdown)
 	local reboot = A.gui.button(3, y-2, 6, 1, "Reboot", nil, os.reboot)
 	local register = A.gui.button(2, 7, 8, 1, "Register", nil, function()
-		data.save("/Library/Settings/users.json", {
+		A.data.save("/Library/Settings/users.json", {
 			{user.getText(), A.hash.sha(pass.getText()), true}
 		})
 		updater()
