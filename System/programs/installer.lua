@@ -35,7 +35,7 @@ function updater()
 	screen:listen()
 end
 
-function user()
+function registerUser()
 	A.draw.clear()
 
 	local screen = A.gui.screen()
@@ -68,4 +68,4 @@ function user()
 	screen:listen()
 end
 
-user()
+registerUser()
