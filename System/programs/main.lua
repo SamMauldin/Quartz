@@ -61,7 +61,7 @@ screen:listen()
 end
 
 local upsettings = A.data.open("/Library/Settings/updater.json", {
-	devel = false,
+	devel = true,
 	confirm = true
 })
 
