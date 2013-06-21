@@ -1,3 +1,7 @@
+A.draw.clear()
+
+function main()
+
 A.scratch:log("Building GUI")
 
 A.draw.clear()
@@ -28,3 +32,47 @@ screen:add(password)
 A.scratch:log("Starting GUI")
 
 screen:listen(true)
+end
+
+local upsettings = A.data.open("/Library/Settings/updater", {
+	devel = false,
+	confirm = true
+})
+
+os.run({["runTime"] = "main"}, "/System/programs/updater.lua")
+
+local updated, errored, err = A.updater.check(upsettings.devel)
+
+if errored then
+	A.scratch:log("Updater failed: " .. err)
+	main()
+else
+	if not updated then
+		if upsettings.confirm then
+
+			local screen = A.gui.screen()
+			local pallet = A.gui.colorscheme()
+
+			local yes = A.gui.button(2, 3, 3, 1, "Yes", pallet, function()
+				A.updater.update(upsettings.devel)
+			end)
+
+			local no = A.gui.button(2, 3, 3, 1, "No", pallet, function()
+				A.draw.clear()
+				main()
+			end)
+
+			local update = A.gui.label(2, 1, "An update is available, would you like to update?")
+
+			screen:add(yes)
+			screen:add(no)
+			screen:add(update)
+			
+			screen:listen()
+		else
+			print("Updating system...")
+			A.updater.update(upsettings.devel)
+			os.reboot()
+		end
+	end
+end

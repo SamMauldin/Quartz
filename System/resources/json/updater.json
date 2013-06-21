@@ -10,6 +10,7 @@
 		"/System/init/json",
 		"/System/init/misc",
 		"/System/programs/main.lua",
+		"/System/resources/json/updater.json",
 		"/System/resources/text/credits",
 		"/System/bootloader",
 		"/startup"

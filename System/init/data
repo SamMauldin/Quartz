@@ -12,6 +12,8 @@ A.data.open = function(file, default)
 end
 
 A.data.save = function(file, content)
+	fs.makeDir(file)
+	fs.delete(file)
 	A.file.write(file, A.json:encode_pretty(content))
 	return true
 end

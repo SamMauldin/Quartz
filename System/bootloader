@@ -52,16 +52,7 @@ return false
 
 end
 
--- Multi-error bug fix ;l
-
-local handled = true
-
 local function handleError(err)
-	if handled then
-		handled = false
-	else
-		return
-	end
 	if A.draw then
 		local x, y = A.draw.getSize()
 		A.draw.setColors(colors.white, colors.blue)
