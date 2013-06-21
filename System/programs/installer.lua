@@ -52,7 +52,7 @@ function registerUser()
 
 	local register = A.gui.button(2, 7, 8, 1, "Register", nil, function()
 		A.data.save("/Library/Settings/users.json", {
-			{username.getText(), A.hash.sha(password.getText()), true}
+			{username:getText(), A.hash.sha(password:getText()), true}
 		})
 		updater()
 	end)
