@@ -32,7 +32,9 @@ A.updater.check = function(devel)
 end
 
 A.updater.update = function(devel)
+	A.draw.clear()
 	A.scratch:log("Updating system")
+	A.draw.print("Updating system")
 	-- Running devel version?
 	local base
 	local url
@@ -51,6 +53,7 @@ A.updater.update = function(devel)
 			if new then
 				A.file.write(v, new.readAll())
 				A.scratch:log("Updated " .. v)
+				A.draw.print("Updated " .. v)
 			else
 				A.scratch:log("Update failed at " .. v)
 				error("Update failed!")
