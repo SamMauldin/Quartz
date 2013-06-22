@@ -54,6 +54,7 @@ screen:add(user)
 screen:add(pass)
 screen:add(username)
 screen:add(password)
+screen:add(login)
 
 A.scratch:log("Starting GUI")
 
