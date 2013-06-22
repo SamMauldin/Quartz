@@ -100,6 +100,7 @@ else
 
 			local panel = A.gui.panel(2, 2, x-4, y-4, "Updater")
 
+			screen:add(panel)
 			screen:add(yes)
 			screen:add(no)
 			screen:add(update)
