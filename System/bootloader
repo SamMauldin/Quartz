@@ -54,7 +54,7 @@ local function capsule()
 
 	sleep(0.25)
 
-	A.run("/System/programs/main.lua", {["runTime"] = "boot"})
+	A.run("/System/programs/main.lua", {["runTime"] = "boot", ["shell"] = shell})
 
 	A.scratch:log("[Shutdown]")
 
