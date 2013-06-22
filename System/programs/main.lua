@@ -32,7 +32,7 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 	local pass = A.hash.sha(password:getText())
 	local valid = false
 	local admin = false
-	local users = data.open("/Library/Settings/users.json", {})
+	local users = A.data.open("/Library/Settings/users.json", {})
 	for k,v in ipairs(users) do
 		if v[1] == user and v[2] == pass then
 			valid = true
@@ -99,6 +99,7 @@ else
 
 			screen:listen()
 		else
+			A.draw.clear()
 			print("Updating system...")
 			A.updater.update(upsettings.devel)
 			os.reboot()
