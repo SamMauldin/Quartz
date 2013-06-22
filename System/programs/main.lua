@@ -32,7 +32,8 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 	local pass = A.hash.sha(password:getText())
 	local valid = false
 	local admin = false
-	for k,v in pairs(data.open("/Library/Settings/users.json", nil)) do
+	local users = data.open("/Library/Settings/users.json", {})
+	for k,v in ipairs(users) do
 		if v[1] == user and v[2] == pass then
 			valid = true
 			admin = v[3]
