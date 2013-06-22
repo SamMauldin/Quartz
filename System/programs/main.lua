@@ -28,8 +28,8 @@ local username = A.gui.textbox(12, 2, 10, pallet)
 local password = A.gui.password(12, 4, 10, pallet)
 
 local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
-	local user = username.getText()
-	local pass = A.hash.sha(password.getText())
+	local user = username:getText()
+	local pass = A.hash.sha(password:getText())
 	local valid = false
 	local admin = false
 	for k,v in pairs(data.open("/Library/users.json", nil)) do
