@@ -33,6 +33,7 @@ end
 
 A.updater.update = function(devel)
 	A.draw.clear()
+	A.draw.setCursorPos(1, 1)
 	A.scratch:log("Updating system")
 	A.draw.print("Updating system")
 	-- Running devel version?

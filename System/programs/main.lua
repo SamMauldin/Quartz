@@ -108,9 +108,6 @@ else
 
 			screen:listen()
 		else
-			A.draw.clear()
-			A.draw.setCursorPos(1, 1)
-			A.draw.print("Updating system...")
 			A.updater.update(upsettings.devel)
 			os.reboot()
 		end
