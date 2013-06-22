@@ -42,7 +42,7 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 		end
 	end
 	if valid then
-		A.run("/rom/programs/shell", {["runTime"] = "login"})
+		A.run("/rom/programs/shell", {["runTime"] = "login", ["shell"] = {}})
 	else
 		pallet:apply("error")
 		A.draw.clear()
