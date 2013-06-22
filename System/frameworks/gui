@@ -206,6 +206,26 @@ function A.gui.checkbox:getValue()
 	return self.on
 end
 
+A.gui.panel = A.gui.element:extends()
+
+function A.gui.panel:init(x, y, w, h, title, scheme)
+	self.x = x
+	self.y = y
+	self.w = w
+	self.h = h
+	self.title = title
+	self.scheme = scheme or A.gui.colorscheme()
+end
+
+function A.gui.panel:draw()
+	self.scheme:apply("panel")
+	A.draw.box(self.x, self.y, self.x + self.w, self.y+self.h)
+	self.scheme:apply("bar")
+	A.draw.box(self.x, self.y, self.x + self.w, self.y)
+	A.draw.setCursorPos(self.x, self.y)
+	A.draw.write(self.title)
+end
+
 --Color scheme
 
 function A.gui.colorscheme:init()
@@ -215,6 +235,8 @@ function A.gui.colorscheme:init()
 	self.s.text = {colors.white, colors.lightBlue}
 	self.s.highlight = {colors.lightBlue, colors.yellow}
 	self.s.screen = {colors.white, colors.lightBlue}
+	self.s.bar = {colors.white, colors.blue}
+	self.s.panel = {colors.white, colors.gray}
 end
 
 function A.gui.colorscheme:set(scheme, value)
