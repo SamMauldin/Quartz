@@ -42,6 +42,7 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 		end
 	end
 	if valid then
+		A.draw.setColors(colors.white, colors.black)
 		A.draw.clear()
 		A.run("/rom/programs/shell", {["runTime"] = "login", ["shell"] = shell})
 		os.reboot()
