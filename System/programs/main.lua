@@ -86,17 +86,19 @@ else
 			local screen = A.gui.screen()
 			local pallet = A.gui.colorscheme()
 
-			local yes = A.gui.button(2, 3, 3, 1, "Yes", pallet, function()
+			local yes = A.gui.button(2, y-3, 3, 1, "Yes", pallet, function()
 				A.updater.update(upsettings.devel)
 				os.reboot()
 			end)
 
-			local no = A.gui.button(x-2, 3, 2, 1, "No", pallet, function()
+			local no = A.gui.button(x-2, y-3, 2, 1, "No", pallet, function()
 				A.draw.clear()
 				main()
 			end)
 
-			local update = A.gui.label(2, 1, "An update is available, would you like to update?")
+			local update = A.gui.label(3, 3, "Would you like to update Quartz?")
+
+			local panel = A.gui.panel(2, 2, x-4, y-4, "Updater")
 
 			screen:add(yes)
 			screen:add(no)
