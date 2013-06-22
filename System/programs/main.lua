@@ -19,9 +19,9 @@ local pallet = A.gui.colorscheme()
 
 pallet:set("error", {colors.red, colors.black})
 
-local shutdown = A.gui.button(x-9, y-2, 8, 1, "Shutdown", pallet, os.shutdown)
+local shutdown = A.gui.button(x-9, y-1, 8, 1, "Shutdown", pallet, os.shutdown)
 
-local reboot = A.gui.button(2, y-2, 6, 1, "Reboot", pallet, os.reboot)
+local reboot = A.gui.button(2, y-1, 6, 1, "Reboot", pallet, os.reboot)
 
 local user = A.gui.label(2, 2, "Username:", pallet)
 local pass = A.gui.label(2, 4, "Password:", pallet)
