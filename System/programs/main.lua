@@ -92,7 +92,7 @@ else
 				os.reboot()
 			end)
 
-			local no = A.gui.button(x-2, y-3, 2, 1, "No", pallet, function()
+			local no = A.gui.button(x-2, y-4, 2, 1, "No", pallet, function()
 				A.draw.clear()
 				main()
 			end)

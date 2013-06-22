@@ -219,9 +219,9 @@ end
 
 function A.gui.panel:draw()
 	self.scheme:apply("panel")
-	A.draw.box(self.x, self.y, self.x + self.w, self.y+self.h)
+	A.draw.box(self.x, self.y, self.x + self.w-1, self.y+self.h-1)
 	self.scheme:apply("bar")
-	A.draw.box(self.x, self.y, self.x + self.w, self.y)
+	A.draw.box(self.x, self.y, self.x + self.w-1, self.y)
 	A.draw.setCursorPos(self.x, self.y)
 	A.draw.write(self.title)
 end
