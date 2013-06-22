@@ -42,7 +42,9 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 		end
 	end
 	if valid then
+		A.draw.clear()
 		A.run("/rom/programs/shell", {["runTime"] = "login", ["shell"] = shell})
+		os.reboot()
 	else
 		pallet:apply("error")
 		A.draw.clear()
@@ -102,7 +104,7 @@ else
 			screen:listen()
 		else
 			A.draw.clear()
-			print("Updating system...")
+			A.draw.print("Updating system...")
 			A.updater.update(upsettings.devel)
 			os.reboot()
 		end
