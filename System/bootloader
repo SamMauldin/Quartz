@@ -10,7 +10,9 @@ local function capsule()
 		local program = loadfile(prog)
 		setmetatable( env, { __index = _G } )
 		setfenv( program, env )
-		program()
+		if program then
+			program()
+		end
 	end
 
 	print("Running init...")

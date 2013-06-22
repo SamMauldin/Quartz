@@ -17,7 +17,7 @@ local screen = A.gui.screen()
 
 local pallet = A.gui.colorscheme()
 
-pallet:set("error", [colors.red, colors.black])
+pallet:set("error", {colors.red, colors.black})
 
 local shutdown = A.gui.button(x-9, y-2, 8, 1, "Shutdown", pallet, os.shutdown)
 
