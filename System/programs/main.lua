@@ -44,6 +44,7 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 	if valid then
 		A.draw.setColors(colors.white, colors.black)
 		A.draw.clear()
+		A.draw.setCursorPos(1, 1)
 		A.run("/rom/programs/shell", {["runTime"] = "login", ["shell"] = shell})
 		os.reboot()
 	else
@@ -86,7 +87,7 @@ else
 			local screen = A.gui.screen()
 			local pallet = A.gui.colorscheme()
 
-			local yes = A.gui.button(2, y-3, 3, 1, "Yes", pallet, function()
+			local yes = A.gui.button(3, y-3, 3, 1, "Yes", pallet, function()
 				A.updater.update(upsettings.devel)
 				os.reboot()
 			end)
@@ -98,7 +99,7 @@ else
 
 			local update = A.gui.label(3, 3, "Would you like to update Quartz?")
 
-			local panel = A.gui.panel(2, 2, x-4, y-4, "Updater")
+			local panel = A.gui.panel(2, 2, x-4, y-2, "Updater")
 
 			screen:add(panel)
 			screen:add(yes)
@@ -108,7 +109,7 @@ else
 			screen:listen()
 		else
 			A.draw.clear()
-			A.draw.term.setCursorPos(1, 1)
+			A.draw.setCursorPos(1, 1)
 			A.draw.print("Updating system...")
 			A.updater.update(upsettings.devel)
 			os.reboot()
