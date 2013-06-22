@@ -99,7 +99,7 @@ else
 
 			local update = A.gui.label(3, 3, "Would you like to update Quartz?")
 
-			local panel = A.gui.panel(2, 2, x-4, y-2, "Updater")
+			local panel = A.gui.panel(2, 2, x-4, y-2, "Autoupdater")
 
 			screen:add(panel)
 			screen:add(yes)
