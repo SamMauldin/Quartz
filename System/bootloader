@@ -30,25 +30,23 @@ local function capsule()
 	end
 	end
 
-	A.draw.write("Loaded init")
+	print("Loaded init")
 
-	A.draw.reset()
-
-	A.draw.print("Loading frameworks")
+	print("Loading frameworks")
 
 	for k,v in pairs(fs.list("/System/frameworks")) do
 
-		A.draw.print("Loading "..v)
+		print("Loading "..v)
 
 		local name = "/System/frameworks/" .. v
 
-	--Safety check
-	if not fs.isDir(name) then
-		A.run(name, {["runTime"] = "framework"})
-	end
+		--Safety check
+		if not fs.isDir(name) then
+			A.run(name, {["runTime"] = "framework"})
+		end
 	end
 
-	A.draw.print("Loaded frameworks")
+	print("Loaded frameworks")
 
 	A.scratch:log("[Started]")
 
@@ -70,12 +68,12 @@ local function handleError(err)
 			A.draw.line(1, i, x, i)
 			sleep(0.1)
 		end
-		A.draw.setCursorPos(5, 2)
-		A.draw.write("Your system has crashed.")
-		A.draw.setCursorPos(5, 4)
-		A.draw.write("Error:")
-		A.draw.setCursorPos(6, 5)
-		A.draw.write(err, 6)
+		term.setCursorPos(5, 2)
+		write("Your system has crashed.")
+		term.setCursorPos(5, 4)
+		write("Error:")
+		term.setCursorPos(6, 5)
+		write(err, 6)
 		sleep(5)
 	else
 		print("An error occurred while booting the system.")

@@ -1,4 +1,4 @@
-local x,y = A.draw.getSize()
+local x,y = term.getSize()
 
 function done()
 	A.file.write("/Library/Settings/.done", "true")

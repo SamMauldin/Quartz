@@ -1,6 +1,6 @@
-A.draw.clear()
+A.draw.clear(true)
 
-local x,y = A.draw.getSize()
+local x,y = term.getSize()
 
 function main()
 
@@ -11,7 +11,7 @@ end
 
 A.scratch:log("Building GUI")
 
-A.draw.clear()
+A.draw.clear(true)
 
 local screen = A.gui.screen()
 
@@ -42,9 +42,8 @@ local login = A.gui.button(2, 6, 5, 1, "Login", pallet, function()
 		end
 	end
 	if valid then
-		A.draw.setColors(colors.white, colors.black)
+		A.draw.setColors()
 		A.draw.clear()
-		A.draw.setCursorPos(1, 1)
 		A.run("/rom/programs/shell", {["runTime"] = "login", ["shell"] = shell})
 		os.reboot()
 	else
@@ -93,7 +92,7 @@ else
 			end)
 
 			local no = A.gui.button(x-2, y-4, 2, 1, "No", pallet, function()
-				A.draw.clear()
+				A.draw.clear(true)
 				main()
 			end)
 
