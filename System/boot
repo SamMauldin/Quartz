@@ -1,0 +1,81 @@
+os.loadAPI("/System/sha")
+os.loadAPI("/System/protect")
+os.loadAPI("/System/file")
+os.loadAPI("/System/updater")
+
+updater.run()
+
+function sanitize(str)
+	str = string.gsub(str, "/", ":")
+	str = string.gsub(str, "%.", ":")
+	return str
+end
+
+if fs.exists("/System/.setupdone") then
+	term.setTextColor(colors.black)
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1, 1)
+	local admins = textutils.unserialize(file.read("/System/admins"))
+	print("Welcome to the Quartz login system.")
+	print(string.rep("-", term.getSize()))
+	write("Username:")
+	local username = sanitize(read())
+	if fs.exists("/Home/" .. username) then
+		local password = sha.sha256(read("*"))
+		if file.read("/Home/" .. username .. "/.passwd", nil) == password then
+			term.clear()
+			term.setCursorPos(1, 1)
+			local admin = false
+			for k, v in pairs(admins) do
+				if v == username then
+					admin = true
+				end
+			end
+			if admin then
+				protect.protect({"/"})
+			else
+				protect.protect({"/Home/" .. username, "/tmp"})
+			end
+			term.clear()
+			term.setCursorPos(1, 1)
+			term.setTextColor(colors.black)
+			term.setTextColor(colors.white)
+			_G["user"] = username
+			shell.setDir("/Home/" .. username)
+			shell.setPath(shell.path() .. ":/System/programs")
+			-- I do this all the time.
+			shell.setAlias("nano", "edit")
+		else
+			print("Wrong password. Please try again")
+			sleep(2)
+			os.reboot()
+		end
+	else
+		print("User not found. Please try again")
+		sleep(2)
+		os.reboot()
+	end
+else
+	term.setTextColor(colors.black)
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1, 1)
+	print("Welcome to the Quartz login system.")
+	print(string.rep("-", term.getSize()))
+	print("Please choose a username for the first account.")
+	write("Username:")
+	local username = sanitize(read())
+	print("Please choose a password for the first accound.")
+	local password = sha.sha256(read("*"))
+	term.clear()
+	term.setCursorPos(1, 1)
+	print("Please wait while we setup your account...")
+	fs.makeDir("/Home/" .. username)
+	file.write("/Home/" .. username .. "/.passwd", password)
+	file.write("/System/admins", textutils.serialize({username}))
+	file.write("/System/.setupdone", "YES")
+	print("Done, please login with the username " .. username)
+	sleep(1)
+	os.reboot()
+end

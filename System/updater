@@ -1,0 +1,24 @@
+function run()
+	local url = "https://raw.github.com/Sxw1212/Quartz/master/"
+	if not http then
+		return
+	end
+	local version = http.get(url .. "System/version")
+	if version then
+		if not (file.read("/System/version") == version.readAll()) then
+			print("Updating Quartz")
+			local list = http.get(url .. "files")
+			if list then
+				list = loadstring(list.readAll())()
+				for k,v in pairs(list) do
+					local content = http.get(url .. v)
+					if content then
+						file.write("/" .. v, content)
+					end
+				end
+			else
+				print("Update failed. Continue on.")
+			end
+		end
+	end
+end

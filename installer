@@ -1,0 +1,11 @@
+if http then
+	local url = "https://raw.github.com/Sxw1212/Quartz/master/"
+	local files = http.get(url .. "files")
+	if files then
+		
+	else
+		print("Unable to get files")
+	end
+else
+	print("HTTP required")
+end
