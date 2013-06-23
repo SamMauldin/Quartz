@@ -13,7 +13,7 @@ function run()
 				for k,v in pairs(list) do
 					local content = http.get(url .. v)
 					if content then
-						file.write("/" .. v, content)
+						file.write("/" .. v, content.readAll())
 					else
 						print("Failed to update " .. v)
 					end
