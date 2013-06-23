@@ -17,7 +17,7 @@ write("Are these settings correct[y/n]:")
 if read() == "y" then
 	fs.makeDir("/Home/" .. username)
 	file.write("/Home/" .. username .. "/.passwd", password)
-	if admin then
+	if admin == "y" then
 		local admins = textutils.unserialize(file.read("/System/admins", nil))
 		table.insert(admins, username)
 		file.write("/System/admins", textutils.serialize(admins))
