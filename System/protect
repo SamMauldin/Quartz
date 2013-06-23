@@ -4,11 +4,13 @@ for k,v in pairs(fs) do
 	rootfs[k]=v
 end
 
-local allowed_files={"/"}
+local write_files = {"/"}
+local read_files = {"/"}
+
 
 local done = false
 
-function protect(files)
+function protect(files, ro)
 	if not done then
 		allowed_files = files
 		done = true
@@ -29,7 +31,22 @@ end
 local function valid(path)
 	local allowed=false
 	local xpath=shorten(path)
-	for k,v in pairs(allowed_files) do
+	for k,v in pairs(write_files) do
+		if starts(xpath, shorten(v)) then
+			allowed = true
+		end
+	end
+	if allowed then
+		return xpath
+	else
+		error("Access denied")
+	end
+end
+
+local function validread(path)
+	local allowed=false
+	local xpath=shorten(path)
+	for k,v in pairs(read_files) do
 		if starts(xpath, shorten(v)) then
 			allowed = true
 		end
@@ -48,11 +65,15 @@ fs.move=function(path, cpath)
 	return rootfs.move(valid(path), valid(cpath))
 end
 fs.copy=function(path, cpath)
-	return rootfs.copy(valid(path), valid(cpath))
+	return rootfs.copy(validread(path), valid(cpath))
 end
 fs.delete=function(path)
 	return rootfs.delete(valid(path))
 end
 fs.open=function(path, m)
-	return rootfs.open(valid(path), m)
+	if m == "r" or m =="br" then
+		return rootfs.open(validread(path), m)
+	else
+		return rootfs.open(valid(path), m)
+	end
 end
