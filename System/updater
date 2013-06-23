@@ -14,6 +14,8 @@ function run()
 					local content = http.get(url .. v)
 					if content then
 						file.write("/" .. v, content)
+					else
+						print("Failed to update " .. v)
 					end
 				end
 			else
@@ -21,4 +23,5 @@ function run()
 			end
 		end
 	end
+	sleep(1)
 end
