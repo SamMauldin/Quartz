@@ -47,6 +47,9 @@ if fs.exists("/System/.setupdone") then
 			shell.setPath(shell.path() .. ":/System/programs")
 			-- I do this all the time.
 			shell.setAlias("nano", "edit")
+			if admin then
+				print("Welcome, admin")
+			end
 		else
 			print("Wrong password. Please try again")
 			sleep(2)

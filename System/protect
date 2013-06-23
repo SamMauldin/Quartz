@@ -27,14 +27,18 @@ local function starts(String,Start)
 end
 
 local function valid(path)
-	local allowed=true
+	local allowed=false
 	local xpath=shorten(path)
 	for k,v in pairs(allowed_files) do
-		if not starts(xpath, shorten(v)) then
-			error("Access denied")
+		if starts(xpath, shorten(v)) then
+			allowed = true
 		end
 	end
-	return xpath
+	if allowed then
+		return xpath
+	else
+		error("Access denied")
+	end
 end
 
 fs.makeDir=function(path)
