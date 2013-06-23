@@ -22,6 +22,7 @@ if fs.exists("/System/.setupdone") then
 	write("Username:")
 	local username = sanitize(read())
 	if fs.exists("/Home/" .. username) then
+		write("Password:")
 		local password = sha.sha256(read("*"))
 		if file.read("/Home/" .. username .. "/.passwd", nil) == password then
 			term.clear()
