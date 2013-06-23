@@ -38,7 +38,7 @@ if fs.exists("/System/.setupdone") then
 			else
 				protect.protect({"/Home/" .. username, "/tmp"})
 			end
-			term.setTextColor(colors.black)
+			term.setBackgroundColor(colors.black)
 			term.setTextColor(colors.white)
 			term.clear()
 			term.setCursorPos(1, 1)

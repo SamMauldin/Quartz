@@ -18,6 +18,7 @@ function run()
 						print("Failed to update " .. v)
 					end
 				end
+				os.reboot()
 			else
 				print("Update failed. Continue on.")
 			end
