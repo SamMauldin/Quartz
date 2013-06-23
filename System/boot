@@ -37,10 +37,10 @@ if fs.exists("/System/.setupdone") then
 			else
 				protect.protect({"/Home/" .. username, "/tmp"})
 			end
-			term.clear()
-			term.setCursorPos(1, 1)
 			term.setTextColor(colors.black)
 			term.setTextColor(colors.white)
+			term.clear()
+			term.setCursorPos(1, 1)
 			_G["user"] = username
 			shell.setDir("/Home/" .. username)
 			shell.setPath(shell.path() .. ":/System/programs")
