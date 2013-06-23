@@ -55,7 +55,7 @@ local function validread(path)
 	if allowed then
 		return xpath
 	else
-		error("Access denied")
+		error("Access denied for " .. xpath)
 	end
 end
 
