@@ -10,15 +10,16 @@ local read_files = {"/"}
 
 local done = false
 
-function protect(files, ro)
+function protect(writef, readf)
 	if not done then
-		allowed_files = files
+		write_files = writef
+		read_files = readf
 		done = true
 	end
 end
 
-local function shorten(file)
-	return rootfs.combine("", file)
+local function shorten(filestr)
+	return rootfs.combine("", filestr)
 end
 
 local sub=string.sub
