@@ -2,7 +2,19 @@ if http then
 	local url = "https://raw.github.com/Sxw1212/Quartz/master/"
 	local files = http.get(url .. "files")
 	if files then
-		
+		local list = loadstring(files.readAll())()
+		for k,v in pairs(list) do
+			local content = http.get(url .. v)
+			if content then
+				-- Make sure its clean and folder exists. Theres probably a better way. 
+				fs.delete("/" .. v)
+				fs.makeDir("/" .. v)
+				fs.delete("/" .. v)
+				local fh = fs.open("/" .. v, "w")
+				fh.write(content.readAll())
+				fh.close()
+			end
+		end
 	else
 		print("Unable to get files")
 	end
