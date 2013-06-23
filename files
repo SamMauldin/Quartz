@@ -1,4 +1,5 @@
 return {
+	"startup",
 	"System/boot",
 	"System/file",
 	"System/programs/logout",
