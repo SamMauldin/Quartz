@@ -5,6 +5,7 @@ return {
 	"System/programs/logout",
 	"System/programs/newuser",
 	"System/programs/passwd",
+	"System/programs/deluser",
 	"System/protect",
 	"System/sha",
 	"System/updater",
