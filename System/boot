@@ -1,3 +1,5 @@
+local oldPull = os.pullEvent
+os.pullEvent = os.pullEventRaw
 os.loadAPI("/System/sha")
 os.loadAPI("/System/protect")
 os.loadAPI("/System/file")
@@ -50,6 +52,7 @@ if fs.exists("/System/.setupdone") then
 			if admin then
 				print("Welcome, admin")
 			end
+			os.pullEvent = oldPull
 		else
 			print("Wrong password. Please try again")
 			sleep(2)
