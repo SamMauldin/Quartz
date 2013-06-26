@@ -3,7 +3,7 @@ local user = read()
 
 write("Are you sure?[y/n]:")
 local del = read()
-if del == "y" else
+if del == "y" then
 	fs.delete("/Home/" .. user)
 	local admins = textutils.unserialize(file.read("/System/admins", nil))
 	for k,v in pairs(admins) do
