@@ -38,7 +38,7 @@ if fs.exists("/System/.setupdone") then
 			if admin then
 				protect.protect({"/"}, {"/"})
 			else
-				protect.protect({"//Shared", "/Home/" .. username, "/tmp"}, {"/rom", "/Shared", "/Home/" .. username, "/System/programs"}, "/tmp")
+				protect.protect({"/Shared", "/Home/" .. username, "/tmp"}, {"/rom", "/Shared", "/Home/" .. username, "/System/programs"}, "/tmp")
 			end
 			term.setBackgroundColor(colors.black)
 			term.setTextColor(colors.white)

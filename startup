@@ -1,1 +1,1 @@
-shell.run("/System/boot")
+--shell.run("/System/boot")
