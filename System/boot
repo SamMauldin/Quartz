@@ -13,7 +13,7 @@ function sanitize(str)
 	return str
 end
 
-if fs.exists("/System/.setupdone") then
+function login()
 	term.setTextColor(colors.black)
 	term.setBackgroundColor(colors.white)
 	term.clear()
@@ -53,6 +53,7 @@ if fs.exists("/System/.setupdone") then
 				print("Welcome, admin")
 			end
 			os.pullEvent = oldPull
+			shell.run("shell")
 		else
 			print("Wrong password. Please try again")
 			sleep(2)
@@ -61,6 +62,19 @@ if fs.exists("/System/.setupdone") then
 	else
 		print("User not found. Please try again")
 		sleep(2)
+		os.reboot()
+	end
+end
+
+
+if fs.exists("/System/.setupdone") then
+	if fs.exists("/System/init") then
+		parallel.waitForAny(login, function() 
+			shell.run("/System/init")
+		end)
+		os.reboot()
+	else
+		login()
 		os.reboot()
 	end
 else
