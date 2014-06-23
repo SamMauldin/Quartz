@@ -73,7 +73,7 @@ end
 
 
 if fs.exists(base .. "/System/.setupdone") then
-	if fs.exists(base . "/System/init") then
+	if fs.exists(base .. "/System/init") then
 		parallel.waitForAny(login, function() 
 			shell.run(base .. "/System/init")
 		end)
