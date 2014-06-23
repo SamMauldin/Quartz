@@ -1,9 +1,14 @@
+local args = {...}
+local base = args[1]
 local oldPull = os.pullEvent
 os.pullEvent = os.pullEventRaw
-os.loadAPI("/System/sha")
-os.loadAPI("/System/protect")
-os.loadAPI("/System/file")
-os.loadAPI("/System/updater")
+os.loadAPI(base .. "/System/sha")
+os.loadAPI(base .. "/System/protect")
+os.loadAPI(base .. "/System/file")
+os.loadAPI(base .. "/System/updater")
+
+_G.quartz = {}
+_G.quartz.base = base
 
 updater.run()
 
@@ -14,19 +19,20 @@ function sanitize(str)
 end
 
 function login()
+	print("Starting login...")
 	term.setTextColor(colors.black)
 	term.setBackgroundColor(colors.white)
 	term.clear()
 	term.setCursorPos(1, 1)
-	local admins = textutils.unserialize(file.read("/System/admins"))
+	local admins = textutils.unserialize(file.read(base .. "/System/admins"))
 	print("Welcome to the Quartz login system.")
 	print(string.rep("-", term.getSize()))
 	write("Username:")
 	local username = sanitize(read())
-	if fs.exists("/Home/" .. username) then
+	if fs.exists(base .. "/Home/" .. username) then
 		write("Password:")
 		local password = sha.sha256(read("*"))
-		if file.read("/Home/" .. username .. "/.passwd", nil) == password then
+		if file.read(base .. "/Home/" .. username .. "/.passwd", nil) == password then
 			term.clear()
 			term.setCursorPos(1, 1)
 			local admin = false
@@ -38,19 +44,18 @@ function login()
 			if admin then
 				protect.protect({"/"}, {"/"})
 			else
-				protect.protect({"/Shared", "/Home/" .. username, "/tmp"}, {"/rom", "/Shared", "/Home/" .. username, "/System/programs", "/tmp"})
+				protect.protect({base .. "/Shared", base .. "/Home/" .. username, base .. "/tmp"}, {"/rom", base .. "/Shared", base .. "/Home/" .. username, base .. "/System/programs", base .. "/tmp"})
 			end
 			term.setBackgroundColor(colors.black)
 			term.setTextColor(colors.white)
 			term.clear()
 			term.setCursorPos(1, 1)
-			_G["user"] = username
-			shell.setDir("/Home/" .. username)
-			shell.setPath(shell.path() .. ":/System/programs")
-			-- I do this all the time.
+			_G.quartz.user = username
+			shell.setDir(base .. "/Home/" .. username)
+			shell.setPath(shell.path() .. ":" .. base .. "/System/programs")
 			shell.setAlias("nano", "edit")
 			if admin then
-				print("Welcome, admin")
+				print("Welcome, admin.")
 			end
 			os.pullEvent = oldPull
 			shell.run("shell")
@@ -67,10 +72,10 @@ function login()
 end
 
 
-if fs.exists("/System/.setupdone") then
-	if fs.exists("/System/init") then
+if fs.exists(base .. "/System/.setupdone") then
+	if fs.exists(base . "/System/init") then
 		parallel.waitForAny(login, function() 
-			shell.run("/System/init")
+			shell.run(base .. "/System/init")
 		end)
 		os.reboot()
 	else
@@ -93,10 +98,10 @@ else
 	term.clear()
 	term.setCursorPos(1, 1)
 	print("Please wait while we setup your account...")
-	fs.makeDir("/Home/" .. username)
-	file.write("/Home/" .. username .. "/.passwd", password)
-	file.write("/System/admins", textutils.serialize({username}))
-	file.write("/System/.setupdone", "YES")
+	fs.makeDir(base .. "/Home/" .. username)
+	file.write(base .. "/Home/" .. username .. "/.passwd", password)
+	file.write(base .. "/System/admins", textutils.serialize({username}))
+	file.write(base .. "/System/.setupdone", "YES")
 	print("Done, please login with the username " .. username)
 	sleep(1)
 	os.reboot()

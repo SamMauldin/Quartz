@@ -1,1 +1,6 @@
-shell.run("/System/boot")
+print("Booting Quartz OS")
+print("Please wait while we determine your running environment...")
+local rp = shell.getRunningProgram()
+local base = "/" .. rp:sub(0, #rp-7)
+print("Running quartz from " .. base)
+shell.run(base .. "/System/boot", base)
