@@ -4,14 +4,14 @@ local user = read()
 write("Are you sure?[y/n]:")
 local del = read()
 if del == "y" then
-	fs.delete(_G.quartz.base .. "/Home/" .. user)
-	local admins = textutils.unserialize(file.read(_G.quartz.base .. "/System/admins", nil))
+	fs.delete(_G.quartz.base .. "Home/" .. user)
+	local admins = textutils.unserialize(file.read(_G.quartz.base .. "System/admins", nil))
 	for k,v in pairs(admins) do
 		if v == user then
 			admins[k] = nil
 		end
 	end
-	file.write(_G.quartz.base .. "/System/admins", textutils.serialize(admins))
+	file.write(_G.quartz.base .. "System/admins", textutils.serialize(admins))
 else
 	print("Aborted")
 end

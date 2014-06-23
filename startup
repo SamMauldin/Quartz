@@ -1,11 +1,9 @@
 print("Booting Quartz OS")
 print("Please wait while we determine your running environment...")
 local rp = shell.getRunningProgram()
-local base = rp:sub(0, #rp-7)
-if base ~= "" then
-	print("Quartz is running in portable mode")
-	base = base:sub(0, #base-1)
+if rp == "startup" then
+	shell.run("/System/boot", "/")
 else
-	print("Quartz is running in system mode")
+	local base = rp:sub(0, #rp-7)
+	shell.run("/System/boot", base)
 end
-shell.run(base .. "/System/boot", base)

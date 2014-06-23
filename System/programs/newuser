@@ -15,12 +15,12 @@ if admin == "y" then
 end
 write("Are these settings correct[y/n]:")
 if read() == "y" then
-	fs.makeDir(_G.quartz.base .. "/Home/" .. username)
-	file.write(_G.quartz.base .. "/Home/" .. username .. "/.passwd", password)
+	fs.makeDir(_G.quartz.base .. "Home/" .. username)
+	file.write(_G.quartz.base .. "Home/" .. username .. "/.passwd", password)
 	if admin == "y" then
-		local admins = textutils.unserialize(file.read(_G.quartz.base .. "/System/admins", nil))
+		local admins = textutils.unserialize(file.read(_G.quartz.base .. "System/admins", nil))
 		table.insert(admins, username)
-		file.write(_G.quartz.base .. "/System/admins", textutils.serialize(admins))
+		file.write(_G.quartz.base .. "System/admins", textutils.serialize(admins))
 	end
 	print("Done!")
 end
