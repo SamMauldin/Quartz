@@ -1,6 +1,6 @@
 function run()
 	print("Checking for update, current version is " .. file.read(_G.quartz.base .. "System/version"))
-	local url = "https://raw.github.com/Sxw1212/Quartz/master/"
+	local url = "http://files.fluidnode.com/public/computercraft/quartz/"
 	if not http then
 		return
 	end
