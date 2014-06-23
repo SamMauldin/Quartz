@@ -25,7 +25,7 @@ function login()
 	term.clear()
 	term.setCursorPos(1, 1)
 	local admins = textutils.unserialize(file.read(base .. "System/admins"))
-	print("Welcome to the Quartz login system.")
+	print(file.read(base .. "System/name")
 	print(string.rep("-", term.getSize()))
 	write("Username:")
 	local username = sanitize(read())
@@ -71,17 +71,22 @@ function login()
 	end
 end
 
+if not fs.exists(base .. "System/name") then
+	term.setTextColor(colors.black)
+	term.setBackgroundColor(colors.white)
+	term.clear()
+	term.setCursorPos(1, 1)
+	print("Welcome to the Quartz login system.")
+	print(string.rep("-", term.getSize()))
+	print("This computer needs a name.")
+	write("Name: ")
+	file.write(base .. "System/name", read())
+	os.reboot()
+end
 
 if fs.exists(base .. "System/.setupdone") then
-	if fs.exists(base .. "System/init") then
-		parallel.waitForAny(login, function() 
-			shell.run(base .. "System/init")
-		end)
-		os.reboot()
-	else
-		login()
-		os.reboot()
-	end
+	login()
+	os.reboot()
 else
 	term.setTextColor(colors.black)
 	term.setBackgroundColor(colors.white)
