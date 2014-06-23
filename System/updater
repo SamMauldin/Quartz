@@ -1,12 +1,12 @@
 function run()
-	print("Checking for update, current version is " .. file.read(base .. "/System/version"))
+	print("Checking for update, current version is " .. file.read(_G.quartz.base .. "/System/version"))
 	local url = "https://raw.github.com/Sxw1212/Quartz/master/"
 	if not http then
 		return
 	end
 	local version = http.get(url .. "System/version")
 	if version then
-		if not (file.read(base .. "/System/version") == version.readAll()) then
+		if not (file.read(_G.quartz. .. "/System/version") == version.readAll()) then
 			print("Updating Quartz")
 			local list = http.get(url .. "files")
 			if list then
@@ -14,7 +14,7 @@ function run()
 				for k,v in pairs(list) do
 					local content = http.get(url .. v)
 					if content then
-						file.write(base .. v, content.readAll())
+						file.write(_G.quartz. .. v, content.readAll())
 					else
 						print("Failed to update " .. v)
 					end
